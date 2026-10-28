@@ -11,9 +11,16 @@
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="icon" href="favicon.png" type="image/png">
 <link rel="apple-touch-icon" href="favicon.png">
+<!-- o hero e o logo definem a primeira impressao: pedidos com prioridade -->
+<link rel="preload" as="image" href="hero-paper.jpg" media="(min-width:641px)" fetchpriority="high">
+<link rel="preload" as="image" href="hero-paper-mob.jpg" media="(max-width:640px)" fetchpriority="high">
+<link rel="preload" as="image" href="logo-corten.png" fetchpriority="high">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<!-- fio de progresso: a única pista de "quanto falta" que o site dá -->
+<div class="progresso" aria-hidden="true"><i id="progFio"></i></div>
+
 <div class="grid" aria-hidden="true">
   <i class="v" style="left:var(--rail)"></i>
   <i class="v" style="right:var(--rail)"></i>
@@ -23,14 +30,15 @@
 </div>
 
 <nav class="nav" id="nav">
-  <a href="#hero" class="nav-mark" aria-label="Morás Experience"><img src="simbolo-nav.png" alt="" width="400" height="264"></a>
+  <a href="#hero" class="nav-mark" aria-label="Morás Experience"><img src="simbolo-nav.png" alt="" width="400" height="264" decoding="async"></a>
   <div class="nav-right">
     <a href="#perfis" class="nl">Perfis</a>
     <a href="#fachada" class="nl">Fachada</a>
     <a href="#local" class="nl">Localização</a>
     <a href="#mapa" class="nl">Mapa de Calor</a>
+    <a href="#produto" class="nl">Casas Sobrepostas</a>
     <a href="#flexcave" class="nl">Flex Cave</a>
-    <a href="#produto" class="nl">As Casas</a>
+    <a href="#tipologia" class="nl">Tipologia</a>
     <a href="#contato" class="ctan">Agendar visita</a>
     <!-- abaixo de 1180px os links somem: este botão devolve a navegação -->
     <button class="burger" id="burger" aria-label="Abrir menu" aria-expanded="false" aria-controls="menuMob">
@@ -46,8 +54,9 @@
     <a href="#fachada"><i>02</i>Fachada</a>
     <a href="#local"><i>03</i>Localização</a>
     <a href="#mapa"><i>04</i>Mapa de Calor</a>
-    <a href="#flexcave"><i>05</i>Flex Cave</a>
-    <a href="#produto"><i>06</i>As Casas</a>
+    <a href="#produto"><i>05</i>Casas Sobrepostas</a>
+    <a href="#flexcave"><i>06</i>Flex Cave</a>
+    <a href="#tipologia"><i>07</i>Tipologia</a>
   </nav>
   <div class="mm-pe">
     <a class="mm-cta" href="#contato">Agendar visita</a>
@@ -85,17 +94,25 @@
   <div class="plate"></div>
   <div class="veil"></div>
   <div class="hero-in">
-    <h1 class="lockup reveal"><img src="logo-corten.png" alt="Morás Experience" width="1400" height="1204"></h1>
-    <div class="hero-sig reveal">Estado da Arte · Infinitamente Verde</div>
+    <h1 class="lockup reveal"><img src="logo-corten.png" alt="Morás Experience" width="1400" height="1204" fetchpriority="high" decoding="async"></h1>
+    <!-- Leitura de instrumento: os dois números são um INTERVALO,
+         então ganham uma régua com marca em cada ponta e o trecho
+         entre elas preenchido. O ponto na ponta direita pulsa. -->
     <div class="hero-metros reveal" role="group" aria-label="Área privativa das unidades">
-      <span class="hm-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 3h18v18H3z"/><path d="M3 9h4M17 3v4M21 15h-4M7 21v-4"/></svg></span>
-      <span class="hm-lbl">Área privativa</span>
-      <span class="hm-rule" aria-hidden="true"></span>
-      <span class="hm-val">238,74<i>—</i>477,78</span><span class="hm-un">m²</span>
+      <span class="hm-linha">
+        <b class="hm-n" id="hmMin" data-alvo="238,74">0,00</b>
+        <i class="hm-tra"></i>
+        <b class="hm-n" id="hmMax" data-alvo="477,78">0,00</b>
+        <span class="hm-un">m²</span>
+      </span>
+      <span class="hm-regua" aria-hidden="true">
+        <s class="hm-marca"></s><s class="hm-fill"></s><s class="hm-marca"></s>
+        <s class="hm-vivo"></s>
+      </span>
+      <span class="hm-extra"><b>04</b>vagas por unidade</span>
     </div>
   </div>
   <div class="cue"><i></i><span>Desça</span></div>
-  <div class="hero-note">Imagem provisória. O plano-sequência da fachada em CGI entra aqui quando ficar pronto.</div>
 </header>
 
 <div class="marq"><div class="marq-t" id="marq"></div></div>
@@ -107,12 +124,15 @@
   </a>
 
  <div class="wrap">
-  <span class="eyebrow reveal">Perfis</span>
-  <h2 class="kicker reveal" style="margin-top:18px;color:var(--acc)">O ordinário<br>não serve.</h2>
-  <p class="perfis-call reveal">Três perfis. Uma exigência em comum.<br><b>Escolha o seu.</b></p>
+  <span class="eyebrow reveal">Perfil | Comprador</span>
+  <h2 class="kicker reveal" style="margin-top:18px;color:var(--acc)">Quem é você?</h2>
+  <p class="perfis-call reveal">Personalidades definidas pelo seu Closet.</p>
+  <!-- a instrução deixa de ser linha de texto e vira objeto: pastilha
+       de corten, com halo pulsando. É o convite da seção inteira. -->
+  <p class="perfis-selo reveal"><b>Escolha o que mais combina com você.</b></p>
  </div>
  <div class="perfis" id="perfisGrid"></div>
- <div class="wrap"><p class="perfis-nota">Sua escolha acompanha você até o fim e chega ao nosso time antes da primeira conversa.</p>
+ <div class="wrap"><p class="perfis-nota">Sua escolha acompanha você até o fim dessa jornada e chega ao nosso time antes da primeira conversa.</p>
   <div class="pickchip" id="pickchip"></div></div>
 </section>
 
@@ -127,36 +147,61 @@
       <div class="fach-img" data-st="1" style="background-image:url(fachada-02-trabalhando.jpg)"></div>
       <div class="fach-img" data-st="2" style="background-image:url(fachada-03-dormindo.jpg)"></div>
       <div class="fach-grade"></div>
-      <div class="fach-cap">Rua Morás, 458 · Vila Madalena<br>Perspectiva de esquina · imagem preliminar</div>
-    </div>
 
-    <div class="fach-side">
-      <span class="eyebrow reveal">Sistema Camaleão</span>
-      <h2 class="kicker reveal">A fachada<br>tem rotina.</h2>
-      <p class="lead reveal" style="color:var(--dim)">O mesmo edifício, três estados.</p>
-
-      <div class="fach-state reveal">
-        <b id="fachNome">Acordando</b>
-        <i id="fachSub">Flex Cave em transição</i>
-        <p id="fachDesc">Metade aberta, metade fechada. Cada morador decide o seu ponto. A fachada nunca é a mesma duas vezes, porque é a soma de dezoito escolhas.</p>
-      </div>
-
-      <!-- três botões grandes: clicar é o caminho principal.
-           O trilho continua arrastável, mas ninguém é obrigado a arrastar. -->
-      <div class="fach-ctrl reveal">
+      <!-- Os controles vivem DENTRO da imagem. A mudança acontece
+           exatamente onde o dedo toca, sem precisar rolar para ver.
+           A legenda do endereço mora aqui também, sobre o degradê
+           escuro — no céu claro do render ela era ilegível. -->
+      <div class="fach-ctrl">
+        <div class="fach-hint">
+          <span class="fh-toque"><s aria-hidden="true"></s>Toque ou arraste a imagem</span>
+          <span class="fh-end">Rua Morás, 458 · Vila Madalena · perspectiva de esquina</span>
+        </div>
         <div class="fach-btns" role="tablist" aria-label="Estado da fachada">
           <button class="fach-stop" data-v="0" role="tab" aria-selected="true"><i>01</i><span>Acordando</span></button>
           <button class="fach-stop" data-v="50" role="tab" aria-selected="false"><i>02</i><span>Trabalhando</span></button>
           <button class="fach-stop" data-v="100" role="tab" aria-selected="false"><i>03</i><span>Dormindo</span></button>
         </div>
-
         <div class="fach-rail" id="fachRail" role="slider" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Ajuste fino do estado da fachada" tabindex="0">
           <div class="fach-line"><i id="fachFill"></i></div>
           <div class="fach-knob" id="fachKnob"></div>
         </div>
-
-        <div class="fach-hint"><s aria-hidden="true"></s><span>Deslize ou use as setas</span><em aria-hidden="true">→</em></div>
       </div>
+    </div>
+
+    <div class="fach-side">
+      <!-- ORDEM DE LEITURA (definida pelo Gustavo):
+           1. a imagem, que a pessoa já arrastou lá em cima
+           2. o que ela acabou de ver: Acordando / Trabalhando / Dormindo
+           3. só então a tese — Sistema Camaleão e as duas peles.
+           O argumento vem depois da experiência, não antes dela. -->
+      <div class="fach-state reveal">
+        <b id="fachNome">Acordando</b>
+        <i id="fachSub">Flex Cave em transição</i>
+        <p id="fachDesc">Metade aberta, metade fechada. Cada morador decide o seu momento. A fachada nunca é a mesma, porque é a soma de infinitas possibilidades.</p>
+      </div>
+
+      <div class="fach-tese">
+        <span class="eyebrow reveal">Sistema Camaleão</span>
+        <h2 class="kicker reveal">O edifício se adapta<br>ao meio ambiente</h2>
+
+        <!-- as duas peles: mesma imagem, camadas diferentes -->
+        <div class="pele-sel reveal" role="tablist" aria-label="Camadas da fachada">
+          <button class="pele on" data-p="ext" role="tab" aria-selected="true"><i>01</i>Pele externa</button>
+          <button class="pele"    data-p="int" role="tab" aria-selected="false"><i>02</i>Pele interna</button>
+        </div>
+        <p class="pele-txt" id="peleTxt"><b>Flex Cave.</b> Placas com propriedades isolantes acústicas e de luminosidade.</p>
+      </div>
+
+  <!-- convite de fim de seção: continua o argumento, não interrompe -->
+  <a class="fecho" href="#contato">
+    <span class="fecho-txt"><b>Conheça a dinâmica.</b><em>Agende sua visita.</em></span>
+    <span class="fecho-ir"><s></s>Agendar visita
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M5 12h13"/><path d="M13 6l6 6-6 6"/></svg>
+    </span>
+  </a>
     </div>
   </div>
 </section>
@@ -170,28 +215,39 @@
   <div class="shead">
     <div><span class="eyebrow reveal">Localização · 23°33′16″S 46°41′26″W</span>
       <h2 class="kicker reveal">O epicentro.</h2></div>
-    <div><p class="lead reveal">No centro de tudo, existe um núcleo.</p>
-      <p class="dimtxt reveal" style="margin-top:16px">A poucos minutos dos principais eixos, sem se expor ao fluxo de nenhum deles.</p></div>
+    <div><p class="lead reveal">Rua Morás.<br>No centro de tudo.</p>
+      <p class="dimtxt reveal" style="margin-top:16px">A pé e a poucos minutos dos principais eixos da cidade.</p></div>
   </div>
 
   <div class="plotter reveal">
     <div class="plot-frame">
-      <img class="plot-img" src="mapa-local.jpg" alt="Mapa de localização do Morás Experience na Vila Madalena"
-           width="1600" height="1600" loading="lazy">
+      <!-- deitado no computador; no celular um recorte mais fechado,
+           em que os nomes de rua ficam 28% maiores -->
+      <picture>
+        <source media="(max-width:640px)" srcset="mapa-local-mob.jpg">
+        <img class="plot-img" src="mapa-local.jpg" alt="Mapa de localização do Morás Experience na Vila Madalena"
+             width="1800" height="1350" loading="lazy">
+      </picture>
       <span class="brk tl"></span><span class="brk tr"></span>
       <span class="brk bl"></span><span class="brk br"></span>
       <div class="plot-hud tl"><b>Rua Morás, 458</b><i>Vila Madalena · São Paulo</i></div>
       <div class="plot-hud tr"><b>Z1</b><i>Zona estritamente residencial</i></div>
       <div class="plot-hud bl"><b>1.685 m²</b><i>Área do terreno</i></div>
-      <div class="plot-hud br"><b>01</b><i>Último lote da via</i></div>
     </div>
-    <p class="plot-arrasta"><s></s>Arraste o mapa para o lado</p>
     <aside class="plot-side">
-      <span class="eyebrow">Eixos de acesso</span>
-      <p class="plot-call">O Morás não está sobre<br>nenhum grande eixo.<br><b>Está no meio de todos.</b></p>
-      <p class="plot-txt">Seis vias estruturais da cidade a poucos minutos de carro — sem o ruído, o trânsito e a exposição de quem mora em cima de uma delas.</p>
-      <div class="dest" id="dest"></div>
-      <p class="plot-nota">Mapa esquemático, sem escala.<br>Tempos de deslocamento a serem fornecidos pela RRG.</p>
+      <!-- menos leitura, mais gatilho: o convite virou chamada
+           grande e o texto de apoio virou uma linha só -->
+      <p class="plot-chama"><s aria-hidden="true"></s>Entenda a ler o mapa</p>
+      <p class="plot-txt">Os cinco anéis desenhados no mapa marcam até onde você chega andando, saindo da porta da Morás Experience.</p>
+      <!-- uma régua só: cinco tempos lado a lado, na ordem do mapa.
+           Antes eram cinco blocos empilhados repetindo a mesma frase;
+           o número já diz tudo, então o resto era altura desperdiçada. -->
+      <div class="regua" aria-label="Raios de caminhada, em minutos">
+        <ol class="regua-min">
+          <li><b>05</b></li><li><b>10</b></li><li><b>15</b></li><li><b>30</b></li><li><b>60</b></li>
+        </ol>
+        <span class="regua-un">minutos a pé</span>
+      </div>
     </aside>
   </div>
  </div>
@@ -204,20 +260,21 @@
 
  <div class="wrap">
   <div class="mhead">
-    <div><span class="eyebrow reveal">Centralidades · 08 órbitas</span>
+    <div><span class="eyebrow reveal">Centralidades</span>
       <h2 class="kicker reveal" style="margin-top:18px">Mapa<br>de Calor</h2></div>
     <div><p class="lead reveal">Centralidade, no Morás, se mede andando.</p>
-      <p class="dimtxt reveal" style="margin-top:18px">Cada anel é um intervalo real de caminhada. Você decide o quanto quer andar.</p></div>
+      <p class="dimtxt reveal" style="margin-top:18px">8 vetores de interesse, divididos em 5 raios de proximidade.</p></div>
   </div>
   <div class="mshell">
     <aside class="panel">
-      <span class="eyebrow">Seu raio de caminhada</span>
+      <span class="eyebrow">Defina seu raio de caminhada</span>
       <div class="ctrl"><b id="radv">30</b><span class="eyebrow">min a pé</span></div>
       <input type="range" id="rad" min="3" max="75" value="30" step="1" aria-label="Minutos a pé">
       <div class="ticks"><span>3</span><span>15</span><span>30</span><span>45</span><span>75</span></div>
+      <p class="dica-arrasta" id="dicaRaio"><s></s>Arraste para o lado</p>
       <div class="cats" id="cats"></div>
       <div style="margin-top:24px;padding-top:18px;border-top:1px solid var(--rule)">
-        <span class="eyebrow">Ao seu alcance</span>
+        <span class="eyebrow">Encontrados ao seu alcance</span>
         <div id="count" style="font-family:var(--serif);font-size:42px;font-weight:500;color:var(--acc);line-height:1;margin-top:9px;letter-spacing:-.03em">0</div>
         <div class="eyebrow" style="margin-top:7px">endereços</div>
       </div>
@@ -229,7 +286,50 @@
     <div><span class="big">08</span> <span class="eyebrow" style="margin-left:9px">órbitas</span></div>
     <div><span class="big">05</span> <span class="eyebrow" style="margin-left:9px">anéis</span></div>
   </div>
+
+  <a class="fecho fecho-fora" href="#contato">
+    <span class="fecho-txt"><b>As melhores localizações, andando a pé.</b><em>Venha conhecer a Morás Experience.</em></span>
+    <span class="fecho-ir"><s></s>Agendar visita
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M5 12h13"/><path d="M13 6l6 6-6 6"/></svg>
+    </span>
+  </a>
  </div>
+</section>
+
+<section id="produto" class="g-corten">
+  <a class="egg" href="#contato" data-bicho="Mico-leão-dourado" aria-label="Agendar visita">
+    <i style="--bicho:url(bichos/mico.png)"></i><span>Agendar visita</span>
+  </a>
+
+ <div class="wrap">
+  <div class="shead">
+    <div><span class="eyebrow reveal">O Empreendimento</span>
+      <h2 class="kicker reveal" style="color:var(--acc)">Casas<br>Sobrepostas</h2>
+      <!-- o slogan assina o letreiro: fio atravessando e versalete
+           espaçado por cima, na mesma linha -->
+      <p class="slogan reveal"><s aria-hidden="true"></s><span>Infinitamente Verde</span><s aria-hidden="true"></s></p>
+      <!-- A ficha técnica mora DENTRO do cabeçalho, colada ao título.
+           Antes era uma faixa solta de quatro blocos altos: no celular
+           virava meia tela de rolagem sem dizer de que assunto era. -->
+      <dl class="ficha reveal">
+        <div><dt>1.685</dt><dd>m² de terreno</dd></div>
+        <div><dt>09</dt><dd>Pavimentos<br>torre única</dd></div>
+        <div><dt>18</dt><dd>Unidades<br>no total</dd></div>
+        <div><dt>Z1</dt><dd>Zona estritamente<br>residencial</dd></div>
+      </dl>
+    </div>
+    <div class="jardim">
+      <p class="jardim-call reveal">Toda casa tem jardim.<br>Na Morás Experience, cada apartamento tem o seu próprio na varanda.</p>
+      <div class="jardim-nota reveal">
+        <b>E o jardim é a Z1.</b>
+        <span>A zona verde eternamente preservada pelo Plano Diretor. O quintal de cada apartamento.</span>
+      </div>
+    </div>
+  </div>
+
+  </div>
 </section>
 
 <!-- FLEX CAVE · a cena -->
@@ -243,36 +343,41 @@
         <a class="egg" href="#contato" data-bicho="Lobo-guará" aria-label="Agendar visita">
       <i style="--bicho:url(bichos/lobo.png)"></i><span>Agendar visita</span>
     </a>
-    <div class="fc-meter"><span>Fechamento</span><i><b id="fcbar"></b></i></div>
+    <div class="fc-meter"><span>Desça para o fechamento</span><i><b id="fcbar"></b></i></div>
     <div class="fc-copy">
-      <span class="eyebrow" style="color:rgba(239,235,226,.5)">Sistema Camaleão · Pele externa</span>
+      <span class="eyebrow" style="color:rgba(239,235,226,.5)">Pele externa</span>
       <h2>Flex Cave</h2>
+      <!-- o estado ganhou nome próprio: Aberto / Fechado em negrito,
+           acima do convite. A frase deixa de começar explicando qual
+           estado é, porque o rótulo já disse. -->
+      <div class="fc-rot">
+        <b id="fcr0">Aberto</b>
+        <b id="fcr1" class="off">Fechado</b>
+      </div>
+      <a class="fecho fecho-claro" href="#contato">
+        <span class="fecho-ir"><s></s>A privacidade da sua caverna
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"
+               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M5 12h13"/><path d="M13 6l6 6-6 6"/></svg>
+        </span>
+      </a>
       <div class="fc-state">
-        <p id="fcs0">Aberto, expõe a vista Z1 como <b>extensão natural da unidade</b>.</p>
-        <p id="fcs1" class="off">Fechado, cria uma <b>caverna pessoal</b> e grava a marca na fachada.</p>
+        <p id="fcs0">A Z1 vira um jardim como <b>extensão natural do apartamento</b>.</p>
+        <p id="fcs1" class="off">A privacidade de uma <b>caverna</b>, contra ruídos e luminosidade. Se transformando em arte.</p>
       </div>
     </div>
   </div>
 </section>
 
-<section id="produto" class="g-corten">
-  <a class="egg" href="#contato" data-bicho="Mico-leão-dourado" aria-label="Agendar visita">
-    <i style="--bicho:url(bichos/mico.png)"></i><span>Agendar visita</span>
+<!-- TIPOLOGIA · seção própria, depois do Flex Cave -->
+<section id="tipologia" class="g-corten">
+  <a class="egg" href="#contato" data-bicho="Onça-pintada" aria-label="Agendar visita">
+    <i style="--bicho:url(bichos/onca.png)"></i><span>Agendar visita</span>
   </a>
 
  <div class="wrap">
-  <div class="shead">
-    <div><span class="eyebrow reveal">O Produto</span>
-      <h2 class="kicker reveal" style="color:var(--acc)">Casas<br>Sobrepostas</h2></div>
-    <div><p class="lead reveal">Toda casa tem jardim. Aqui, cada apartamento tem o seu na varanda.</p>
-      <p class="dimtxt reveal" style="margin-top:16px"><b style="color:var(--acc);font-weight:400">E o jardim é a Z1.</b> A zona preservada em frente não é vista: é o quintal de cada unidade, e ninguém pode construir nela.</p></div>
-  </div>
-
-  <div class="band reveal">
-    <div><b>1.685</b><span>m² de terreno</span></div>
-    <div><b>09</b><span>Pavimentos, torre única</span></div>
-    <div><b>2,95</b><span>Aproveitamento privativo sobre a área do terreno</span></div>
-    <div><b>18</b><span>Unidades no total</span></div>
+  <div class="shead tipo-head">
+    <div><h2 class="kicker reveal" style="color:var(--acc)">Tipologia</h2></div>
   </div>
 
   <div class="typo-wrap">
@@ -280,32 +385,93 @@
     <div class="typo-panel" id="tpanel" role="tabpanel"></div>
   </div>
 
-  <div class="trio">
-    <div class="reveal"><span class="eyebrow">Fachada da torre</span>
-      <h4>Aço corten<br>e vegetação</h4>
-      <p>Uma rocha ascendente. Painéis revestidos em corten com vegetação integrada ao desenho, em continuidade visual com a Vila Madalena.</p></div>
-    <div class="reveal"><span class="eyebrow">O easter egg</span>
-      <h4>A onça<br>rupestre</h4>
-      <p>Com os painéis fechados, o encaixe revela uma onça-pintada em pintura rupestre que se projeta verticalmente até o topo do edifício.</p></div>
-    <div class="reveal"><span class="eyebrow">Da terra ao mar</span>
-      <h4>Floresta,<br>depois praia</h4>
-      <p>Térreo elevado, escada escultural e um percurso de madeira tratada, rocha aparente, areia e vegetação nativa.</p></div>
+  <!-- TRÊS PLACAS · o mesmo gesto do Flex Cave.
+       Fechadas mostram só o número e o título. A placa desliza no
+       toque e revela o conteúdo. A 02 revela a própria onça. -->
+  <div class="trio reveal" id="trio">
+    <button class="tri" aria-expanded="false">
+      <span class="tri-fundo" style="--foto-d:url(placas/placa-01-esg.jpg);--foto-m:url(placas/placa-01-esg-mob.jpg)"></span>
+      <span class="tri-in">
+        <span class="eyebrow">Mais Morás, menos carbono</span>
+        <h4>ESG e<br>Sustentabilidade</h4>
+        <p>Quilômetros Solares: os painéis captam o sol e guardam energia dedicada à recarga de elétricos. Carbono Zero. Certificações WELL, LEED for Homes e EDGE. IPTU Verde, ventilação cruzada e luz natural em todos os ambientes.</p>
+      </span>
+      <span class="tri-placa">
+        <i>01</i><b>ESG e<br>Sustentabilidade</b><em>Toque para revelar</em>
+      </span>
+    </button>
+
+    <button class="tri" aria-expanded="false">
+      <span class="tri-fundo" style="--foto-d:url(placas/placa-02-arte.jpg);--foto-m:url(placas/placa-02-arte-mob.jpg)"></span>
+      <span class="tri-in">
+        <span class="eyebrow">A fachada é a obra</span>
+        <h4>Arte e<br>Concurso</h4>
+        <p>Artistas brasileiros vão disputar espaço nos painéis internos e externos. A obra não entra no edifício. Ela é o edifício.</p>
+      </span>
+      <span class="tri-placa">
+        <i>02</i><b>Arte e<br>Concurso</b><em>Toque para revelar</em>
+      </span>
+    </button>
+
+    <button class="tri" aria-expanded="false">
+      <span class="tri-fundo" style="--foto-d:url(placas/placa-03-wellness.jpg);--foto-m:url(placas/placa-03-wellness-mob.jpg)"></span>
+      <span class="tri-in">
+        <span class="eyebrow">Estado do Flow</span>
+        <h4>Wellness e<br>Performance</h4>
+        <p>Piscina climatizada com raia, sauna, banheira de gelo, banheira quente, academia de última geração, cockpit simulador de Fórmula 1, e-sports, sala de carteado e a Arena Multiverso.</p>
+      </span>
+      <span class="tri-placa">
+        <i>03</i><b>Wellness e<br>Performance</b><em>Toque para revelar</em>
+      </span>
+    </button>
+
+    <button class="tri" aria-expanded="false">
+      <span class="tri-fundo" style="--foto-d:url(placas/placa-04-tecnologia.jpg);--foto-m:url(placas/placa-04-tecnologia-mob.jpg)"></span>
+      <span class="tri-in">
+        <span class="eyebrow">Construída no Metaverso</span>
+        <h4>Tecnologia</h4>
+        <p>Cenarium: o apartamento vira palco — luz, clima, piso aquecido e cortina por toque, voz ou rotina. O Sistema Camaleão se adapta a condições climáticas. Seu Zé | Smart I.A é a segurança e inteligência na portaria. E o Protótipo BIM, feito para identidade de cada peça, que permite controle e rastreabilidade.</p>
+      </span>
+      <span class="tri-placa">
+        <i>04</i><b>Tecnologia</b><em>Toque para revelar</em>
+      </span>
+    </button>
   </div>
 
   <!-- PROTÓTIPO DIGITAL · antes era seção própria, agora fecha AS CASAS -->
   <div class="bim-in reveal">
     <div class="bim-head">
       <span class="eyebrow">Protótipo digital</span>
-      <p class="h2" style="margin-top:14px">O edifício existe inteiro<br>antes do concreto.</p>
-      <p class="dimtxt" style="margin-top:16px">Percorra sua unidade em escala real, escolha acabamentos e acompanhe a obra.</p>
+      <p class="h2" style="margin-top:14px">A Morás nasce<br>no Digital.</p>
+      <p class="dimtxt" style="margin-top:16px">Construído um Protótipo Digital no Modelo 3D | Georreferenciado que possibilita a individualização de cada peça para armazenamento de dados e execução. Desenvolvido para o encaixe <b>PERFEITO</b>.<br>Controle &amp; Rastreabilidade.</p>
     </div>
     <a class="bim-cta" href="#" target="_blank" rel="noopener">
       <span class="bim-panel"></span>
-      <span class="bim-lbl"><b>Entrar no protótipo</b><em>Link externo · a definir</em></span>
-      <span class="bim-arrow">↗</span>
+      <span class="bim-lbl"><b>Acompanhe a construção do protótipo</b><em>Link externo · a definir</em></span>
+      <!-- seta desenhada: o caractere ↗ virava emoji azul no iPhone -->
+      <span class="bim-arrow" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"
+             stroke-linecap="round" stroke-linejoin="round">
+          <path d="M7 17 17 7"/><path d="M9 7h8v8"/>
+        </svg>
+      </span>
     </a>
   </div>
  </div>
+</section>
+
+<!-- ═══ A ONÇA · respiro entre o protótipo e o formulário ═══════
+     Uma tela inteira sem argumento nenhum. Depois de nove seções
+     explicando, o site cala a boca e mostra. É a pausa que faz o
+     convite seguinte parecer convite, e não mais uma seção.
+     ══════════════════════════════════════════════════════════ -->
+<section id="onca" class="onca" aria-label="Control Your Experience">
+  <div class="onca-foto"></div>
+  <div class="onca-veu"></div>
+  <div class="onca-in">
+    <h2 class="onca-tit reveal">Control Your<br>Experience</h2>
+    <p class="onca-leg reveal"><s aria-hidden="true"></s>onde a onça bebe água</p>
+  </div>
 </section>
 
 <section id="contato" style="background:var(--bg2)">
@@ -314,7 +480,17 @@
     <div>
       <span class="eyebrow reveal">Pré-lançamento</span>
       <h2 class="h2 reveal" style="margin:20px 0 26px">A visita é<br><em>por convite.</em></h2>
-      <p class="body reveal">O estande de vendas do Morás Experience recebe por agendamento. Deixe seus dados e nossa equipe entra em contato para definir dia e horário.</p>
+      <p class="body reveal">O estande de vendas da Morás Experience recebe por agendamento. Deixe seus dados e nossa equipe entrará em contato.</p>
+      <!-- Um bloco só. Antes o perfil aparecia duas vezes seguidas:
+           uma no resumo do percurso, outra no "Anotado" logo abaixo.
+           Agora o perfil escolhido é o próprio cabeçalho do resumo,
+           com a descrição que saiu dos cartões lá de cima. -->
+      <div class="resumo" id="resumo" aria-live="polite">
+        <span class="eyebrow">Sua visita já começou</span>
+        <div class="resumo-perfil" id="resumoPerfil"></div>
+        <ul id="resumoLista"></ul>
+        <p class="resumo-pe">Levamos isso pronto para a conversa.</p>
+      </div>
       <div class="gate reveal"><span class="eyebrow">Acesso antecipado</span>
         <p>Tem um código de convite? Plantas, tipologias e o tour no protótipo digital são liberados antes da abertura pública.</p></div>
     </div>
@@ -323,10 +499,22 @@
         <div class="field"><label for="n">Nome completo</label><input id="n" required autocomplete="name"></div>
         <div class="field"><label for="e">E-mail</label><input id="e" type="email" required autocomplete="email"></div>
         <div class="field"><label for="t">Telefone</label><input id="t" type="tel" required autocomplete="tel"></div>
-        <div class="field"><label for="i">Interesse</label><select id="i">
-          <option>Visita ao estande de vendas</option><option>Material do pré-lançamento</option>
-          <option>Sou corretor ou parceiro</option><option>Arquitetura, arte ou paisagismo</option><option>Imprensa</option></select></div>
+        <!-- duas perguntas em vez de uma: QUEM é a pessoa e O QUE ela
+             quer. Antes a mesma lista misturava as duas coisas, e o
+             time recebia "Arquitetura" sem saber se era um parceiro
+             ou alguém pedindo planta. -->
+        <div class="field"><label for="i">Quem sou eu</label><select id="i">
+          <option>Sou cliente</option>
+          <option>Tenho cliente</option>
+          <option>Sou arquiteto / decorador / paisagista</option>
+          <option>Sou artista</option>
+          <option>Sou da Imprensa</option></select></div>
+        <div class="field"><label for="q">Interesses</label><select id="q">
+          <option>Material técnico</option>
+          <option>Fale conosco</option>
+          <option>Visite a Loja Morás Experience</option></select></div>
         <input type="hidden" id="perfilField" name="perfil">
+        <input type="hidden" id="resumoField" name="percurso">
         <button class="submit" type="submit">Agendar visita</button>
         <p class="legal">Placeholder. Substituir por texto de consentimento validado pelo jurídico (LGPD) e integrar ao CRM.</p>
       </form>
@@ -343,11 +531,11 @@
     <div class="fg">
       <div>
         <div style="display:flex;align-items:center;gap:14px;color:var(--marca)">
-          <img class="fmark" src="simbolo-creme.png" alt="" width="600" height="397">
+          <img class="fmark" src="simbolo-creme.png" alt="" width="600" height="397" loading="lazy" decoding="async">
           <div style="color:var(--branco)"><div style="font-family:var(--serif);font-size:17px;letter-spacing:.16em">MORÁS</div>
           <div class="eyebrow" style="margin-top:3px;color:var(--dim)">Experience</div></div></div>
         <p style="margin-top:26px;font-size:12.5px;color:var(--dim);max-width:30ch;line-height:1.85">Rua Morás, 458. Vila Madalena, São Paulo.<br>Estado da Arte, Infinitamente Verde.</p>
-        <a class="frrg" href="https://rrg.com.br" target="_blank" rel="noopener">Conheça a RRG →</a>
+        <a class="frrg" href="https://rrg.com.br" target="_blank" rel="noopener">Conheça a RRG <svg class="ico-seta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13"/><path d="M13 6l6 6-6 6"/></svg></a>
       </div>
       <div><span class="eyebrow">Os 3 Cs</span>
         <div class="f3c" style="margin-top:18px">
@@ -362,10 +550,11 @@
           <a class="flink" href="#local">Localização</a>
           <a class="flink" href="#mapa">Mapa de Calor</a>
           <a class="flink" href="#flexcave">Flex Cave</a>
-          <a class="flink" href="#produto">As Casas</a>
-          <a class="flink" href="#produto">Protótipo digital</a>
+          <a class="flink" href="#produto">Casas Sobrepostas</a>
+          <a class="flink" href="#tipologia">Tipologia</a>
+          <a class="flink" href="#tipologia">Protótipo digital</a>
           <a class="flink" href="#contato">Agendar visita</a>
-          <a class="flink" href="https://rrg.com.br" target="_blank" rel="noopener">rrg.com.br ↗</a>
+          <a class="flink" href="https://rrg.com.br" target="_blank" rel="noopener">rrg.com.br <svg class="ico-seta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M9 7h8v8"/></svg></a>
         </div></div>
     </div>
     <div class="fbot">
@@ -380,42 +569,241 @@
 try{
 
 addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('solid',scrollY>40),{passive:true});
+
+/* ══ METRAGEM · o instrumento calibrando ═══════════════════════
+   Os dois números correm de zero, um depois do outro, como um
+   aparelho se calibrando. Em sequência, nunca juntos: dois
+   contadores simultâneos leem como instabilidade, não como
+   tecnologia. A régua embaixo preenche junto com o segundo.
+   ════════════════════════════════════════════════════════════ */
+try{
+const fmtBR=new Intl.NumberFormat('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+const suave=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
+function corre(el,dur,aoFim){
+  const alvo=parseFloat(el.dataset.alvo.replace('.','').replace(',','.'));
+  const t0=performance.now();
+  (function passo(t){
+    const p=Math.min(1,(t-t0)/dur);
+    el.textContent=fmtBR.format(alvo*suave(p));
+    if(p<1)requestAnimationFrame(passo); else if(aoFim)aoFim();
+  })(t0);
+}
+const hMin=document.getElementById('hmMin'), hMax=document.getElementById('hmMax'),
+      hFill=document.querySelector('.hm-fill'), hMetros=document.querySelector('.hero-metros');
+if(hMin&&hMax){
+  const semMov=typeof matchMedia==='function'&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(semMov){
+    hMin.textContent=hMin.dataset.alvo; hMax.textContent=hMax.dataset.alvo;
+    if(hMetros)hMetros.classList.add('calibrado');
+  }else{
+    /* mais veloz: a contagem é confirmação de um dado, não espetáculo.
+       Arrancada mais curta (420ms de espera) e cada número em 460ms,
+       então o par inteiro resolve em menos de um segundo. */
+    setTimeout(()=>corre(hMin,460,()=>{
+      if(hMetros)hMetros.classList.add('enchendo');
+      corre(hMax,460,()=>{ if(hMetros)hMetros.classList.add('calibrado'); });
+    }),420);
+  }
+}
+}catch(e){console.error('[Morás] metragem falhou:',e)}
+
+/* ══ RESUMO DO PERCURSO ════════════════════════════════════════
+   O site sabe duas coisas sobre quem está lendo: o perfil que
+   escolheu e a tipologia que abriu. Em vez de perder isso, devolvo
+   em forma de resumo logo acima do formulário.
+
+   O perfil não é mais um item de lista igual aos outros: ele é o
+   cabeçalho do bloco, com a descrição inteira. Foi ela que saiu
+   dos cartões lá em cima, e este é o lugar onde ela faz sentido —
+   depois da escolha, não antes.
+
+   O raio de caminhada saiu: mexer no cursor do mapa é explorar,
+   não decidir. Levar isso para a conversa era ruído.
+   ════════════════════════════════════════════════════════════ */
+window.RES={perfil:null,tipo:null};
+window.PERFIL_DESC={};
+window.pintaResumo=function(){
+  const cx=document.getElementById('resumo'), ul=document.getElementById('resumoLista');
+  if(!cx||!ul)return;
+  const R=window.RES;
+  const cab=document.getElementById('resumoPerfil');
+  if(cab){
+    cab.innerHTML = R.perfil
+      ? `<b>${R.perfil}</b><span>${window.PERFIL_DESC[R.perfil]||''}</span>`
+      : '';
+    cab.classList.toggle('on', !!R.perfil);
+  }
+  const itens=[];
+  if(R.tipo) itens.push(['Tipologia que você abriu',R.tipo]);
+  if(!R.perfil && !itens.length){cx.classList.remove('on');return;}
+  ul.innerHTML=itens.map(([a,b])=>`<li><em>${a}</em><b>${b}</b></li>`).join('');
+  cx.classList.add('on');
+  const campo=document.getElementById('resumoField');
+  if(campo){
+    const linhas=[];
+    if(R.perfil)linhas.push('Perfil: '+R.perfil);
+    itens.forEach(([a,b])=>linhas.push(a+': '+b));
+    campo.value=linhas.join(' | ');
+  }
+};
+
+/* ══ ORIENTAÇÃO ════════════════════════════════════════════════
+   Duas coisas, nenhuma decorativa: quanto falta, e onde eu estou.
+   É o que responde à reclamação de "site confuso".
+   ════════════════════════════════════════════════════════════ */
+const fio=document.getElementById('progFio');
+function marcaProgresso(){
+  const h=document.documentElement.scrollHeight-innerHeight;
+  fio.style.transform='scaleX('+(h>0?Math.min(1,scrollY/h):0).toFixed(4)+')';
+}
+addEventListener('scroll',marcaProgresso,{passive:true});
+addEventListener('resize',marcaProgresso); marcaProgresso();
+
+/* o item do menu acende conforme a seção passa, e o CHÃO da seção
+   passa a governar a cor dos dois botões flutuantes: em corten ou
+   preto eles viram bege, senão ficam corten. Sem isso o WhatsApp
+   sumia dentro das seções da própria cor dele. */
+const elos=[...document.querySelectorAll('.nl, .mm-links a')];
+const secoes=[...document.querySelectorAll('header[id], section[id]')];
+const chaoDe=el=>el.classList.contains('g-corten')?'corten'
+              :(el.classList.contains('g-preto')||el.classList.contains('fc'))?'escuro':'papel';
+
+let secAtual=null, passadas=0;
+function pulsaCTA(){
+  const b=document.querySelector('.ctan');
+  if(!b)return;
+  b.classList.remove('lembra'); void b.offsetWidth; b.classList.add('lembra');
+  setTimeout(()=>b.classList.remove('lembra'),2000);
+}
+
+if('IntersectionObserver' in window){
+  const ioNav=new IntersectionObserver(es=>{
+    es.forEach(e=>{
+      if(!e.isIntersecting)return;
+      const alvo=e.target, id='#'+alvo.id;
+      elos.forEach(a=>a.classList.toggle('on',a.getAttribute('href')===id));
+      document.body.dataset.chao=chaoDe(alvo);
+      /* uma pulsada do "Agendar visita" a cada seção nova */
+      if(secAtual && secAtual!==alvo.id){ passadas++; pulsaCTA(); }
+      secAtual=alvo.id;
+    });
+  },{rootMargin:'-45% 0px -50% 0px'});
+  secoes.forEach(s=>ioNav.observe(s));
+}
+
+/* ══ WHATSAPP · pulso periódico, alternado com o CTA ═══════════
+   A cada 10 segundos, e nunca no mesmo instante que o botão do
+   topo: dois pulsos simultâneos leem como piscar de erro.
+   ════════════════════════════════════════════════════════════ */
+setInterval(()=>{
+  const f=document.getElementById('zapFab');
+  if(!f||!f.classList.contains('on'))return;
+  const cta=document.querySelector('.ctan');
+  if(cta&&cta.classList.contains('lembra'))return;   /* espera a vez */
+  f.classList.add('chama');
+  setTimeout(()=>f.classList.remove('chama'),2400);
+},10000);
 }catch(e){console.error('[Morás] bloco falhou:',e)}
 try{
 /* imagens de referência (fallback cromático embutido) */
 const FB=['#1E2415','#2A1A10','#141C18','#22190F','#182016'];
 function paintPh(){document.querySelectorAll('.ph[data-img],.perfil-bg[data-img]').forEach((t,i)=>{
   t.style.backgroundColor=FB[i%FB.length];
-  t.style.backgroundImage=`url("https://images.unsplash.com/photo-${t.dataset.img}?q=80&w=1600&auto=format&fit=crop"),linear-gradient(160deg,${FB[(i+1)%FB.length]},${FB[i%FB.length]})`})}
+  /* a foto local vem primeiro. Se o arquivo ainda não existe, o
+     navegador simplesmente pula para a camada de baixo. */
+  const local = t.dataset.arq ? `url("perfis/${t.dataset.arq}.jpg"),` : '';
+  t.style.backgroundImage = local +
+    `url("https://images.unsplash.com/photo-${t.dataset.img}?q=80&w=1600&auto=format&fit=crop"),`+
+    `linear-gradient(160deg,${FB[(i+1)%FB.length]},${FB[i%FB.length]})`})}
 }catch(e){console.error('[Morás] bloco falhou:',e)}
 try{
 /* marquee, vocabulário oficial da marca */
-const VOC=['Escultura viva','Estilize seu cenário','Infinitamente Verde','A estética do sport luxury',
- 'Habita a arte','Mais Morás e menos carbono','O palco do seu cenário','Atemporal','Carbono Zero',
- 'Morás é Mais','Intensidade refinada','Liberdade acústica','Metaverso georreferenciado','Feito para durar'];
+const VOC=['Estado da Arte','Infinitamente Verde','Escultura viva','Estilize seu cenário',
+ 'A estética do sport luxury','Mais Morás e menos carbono','O palco do seu cenário','Atemporal',
+ 'Carbono Zero','Morás é Mais','Liberdade acústica','Metaverso georreferenciado','Feito para durar'];
 document.getElementById('marq').innerHTML=[...VOC,...VOC].map(v=>`<span>${v}</span>`).join('');
 }catch(e){console.error('[Morás] bloco falhou:',e)}
 try{
 /* tipologias */
 const TIPOS=[
- {k:'Tipo',n:'Apartamento Tipo',d:'A planta perfeita, sem necessidade de incorporar varandas. Cada pavimento oferece uma experiência única: nas unidades mais baixas, a vista é voltada para a copa das árvores; nas intermediárias, há integração direta com o verde da Z1; nas mais altas, o visual se abre para a paisagem urbana de São Paulo.',
+ {k:'Tipo',n:'Apartamento Tipo',sub:'A Planta Perfeita.',
+  d:'Cada apartamento oferece uma experiência única: nas unidades mais baixas, a vista é voltada para a copa das árvores; nas intermediárias, a Z1 conecta o “Infinitamente Verde” nas varandas; as mais altas, o visual se abre para o skyline paulista.',
   img:'1560448204-e02f11c3d0e2',s:[['239 m²','Área privativa'],['04','Suítes'],['04','Vagas'],['14','Unidades']]},
  {k:'Garden A',n:'Garden A',d:'Térreo com jardim privativo. A experiência de casa levada ao limite: área externa própria, contato direto com o paisagismo e privacidade para viver do seu jeito.',
   img:'1600585154340-be6161a56a0c',s:[['474 m²','Área privativa'],['270 m²','De jardim'],['04','Suítes'],['4 carros','Vaga box']]},
  {k:'Garden B',n:'Garden B',d:'A mesma lógica de casa em escala mais compacta, com jardim privativo e integração plena entre interior e exterior.',
   img:'1600607687939-ce8a6c25118c',s:[['375 m²','Área privativa'],['193 m²','De jardim'],['03','Suítes'],['4 carros','Vaga box']]},
- {k:'Cobertura',n:'Cobertura Duplex',d:'O topo da torre. Dois pavimentos, ampla área descoberta e a leitura completa da paisagem, da Z1 preservada ao horizonte da cidade.',
+ {k:'Cobertura',n:'Cobertura Duplex',sub:'A Planta Perfeita.',
+  d:'O topo da torre. Dividido em 2 pavimentos:<br>1º andar — Family<br>2º andar — Family &amp; Friends',
   img:'1600566753190-17f0baa2a6c3',s:[['478 m²','Área privativa'],['238 m²','Descoberta'],['04','Suítes'],['02','Unidades']]}];
 const tnav=document.getElementById('tnav'),tpanel=document.getElementById('tpanel');
 TIPOS.forEach((t,i)=>{const b=document.createElement('button');b.setAttribute('role','tab');
   b.setAttribute('aria-selected',i===0);b.innerHTML=`<i>0${i+1}</i><b>${t.k}</b>`;
   b.onclick=()=>{[...tnav.children].forEach(c=>c.setAttribute('aria-selected','false'));
     b.setAttribute('aria-selected','true');paintTipo(i)};tnav.appendChild(b)});
-function paintTipo(i){const t=TIPOS[i];
-  tpanel.innerHTML=`<div class="typo-txt fade"><h3><small>Tipologia 0${i+1}</small>${t.n}</h3>
-    <p class="body" style="margin-top:22px">${t.d}</p>
-    <div class="specs">${t.s.map(s=>`<div><b>${s[0]}</b><span>${s[1]}</span></div>`).join('')}</div></div>
-    <div class="slot fade" style="aspect-ratio:4/5"><span>Perspectiva<br>${t.n}<br><br>CGI em produção</span></div>`}
+/* ── CARROSSEL · três imagens por tipologia ────────────────────
+   Enquanto as fotos não chegam, os três quadros ficam em corten,
+   numerados, dizendo o que vai em cada um. Basta salvar os
+   arquivos com o nome certo em tipologias/ que eles assumem.
+   ──────────────────────────────────────────────────────────── */
+const VISTAS=['Perspectiva geral','Estar e varanda','Suíte principal'];
+const ARQ=['tipo','garden-a','garden-b','cobertura'];
+
+function paintTipo(i){
+  const t=TIPOS[i];
+  const quadros=VISTAS.map((v,n)=>`
+    <figure class="carr-q" data-n="${n}">
+      <img src="tipologias/${ARQ[i]}-0${n+1}.jpg" alt="${t.n} · ${v}" loading="lazy"
+           onerror="this.remove()">
+      <figcaption><i>0${n+1}</i><span>${v}</span><em>CGI em produção</em></figcaption>
+    </figure>`).join('');
+
+  tpanel.innerHTML=`
+    <div class="typo-txt fade"><h3><small>Tipologia 0${i+1}</small>${t.n}</h3>
+      ${t.sub?`<p class="typo-sub">${t.sub}</p>`:''}
+      <p class="body" style="margin-top:${t.sub?'14px':'22px'}">${t.d}</p>
+      <div class="specs">${t.s.map(s=>`<div><b>${s[0]}</b><span>${s[1]}</span></div>`).join('')}</div>
+    </div>
+    <div class="carr fade" data-i="0">
+      <div class="carr-trilho">${quadros}</div>
+      <button class="carr-seta ant" aria-label="Imagem anterior">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"
+             stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+      </button>
+      <button class="carr-seta prox" aria-label="Próxima imagem">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"
+             stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>
+      </button>
+      <div class="carr-cont"><b>01</b><s></s><span>03</span></div>
+    </div>`;
+  ligaCarrossel(tpanel.querySelector('.carr'));
+  if(window.RES){window.RES.tipo=t.n;window.pintaResumo();}
+}
+
+function ligaCarrossel(c){
+  if(!c)return;
+  const trilho=c.querySelector('.carr-trilho'), n=c.querySelectorAll('.carr-q').length;
+  const conta=c.querySelector('.carr-cont b');
+  const vai=d=>{
+    const i=Math.max(0,Math.min(n-1,(+c.dataset.i)+d));
+    c.dataset.i=i;
+    trilho.style.transform=`translate3d(${-i*100}%,0,0)`;
+    conta.textContent='0'+(i+1);
+    c.querySelector('.ant').disabled = i===0;
+    c.querySelector('.prox').disabled = i===n-1;
+  };
+  c.querySelector('.ant').addEventListener('click',()=>vai(-1));
+  c.querySelector('.prox').addEventListener('click',()=>vai(1));
+  /* arrastar também funciona, que é o gesto que o dedo tenta primeiro */
+  let x0=null;
+  c.addEventListener('pointerdown',e=>{if(!e.target.closest('.carr-seta'))x0=e.clientX});
+  c.addEventListener('pointerup',e=>{
+    if(x0===null)return;
+    const d=e.clientX-x0; x0=null;
+    if(Math.abs(d)>40) vai(d<0?1:-1);
+  });
+  vai(0);
+}
 paintTipo(0);
 }catch(e){console.error('[Morás] bloco falhou:',e)}
 try{
@@ -424,33 +812,63 @@ try{
    ══════════════════════════════════════════════════════ */
 const PERFIS=[
  {k:'Luxo Intelectual',e:'A cultura como valor',c:'#3A2A16',
-  p:'A arte e a cultura como novos vetores de valor. Em um mundo onde o luxo material é onipresente, o luxo cultural define a verdadeira exclusividade. A residência vira um manifesto de valores pessoais.',
-  img:'1577720580479-7d839d829c73'},
+  p:'A cultura como novo vetor de valor. A residência vira seu próprio manifesto.',
+  img:'1577720580479-7d839d829c73', arq:'perfil-01-intelectual'},
  {k:'Quiet Luxury',e:'Sofisticação discreta',c:'#2C2A22',
-  p:'Paleta neutra e terrosa, estética minimalista e materialidade autoral. A comunicação de exclusividade através do silêncio.',
-  img:'1615529162924-f8605388461d'},
- {k:'Luxo Tradicional',e:'Sofisticação declarada',c:'#3E1A10',
-  p:'Paletas ricas, parcerias de grife e linguagem visual que celebra a própria conquista sem hesitar.',
-  img:'1618221195710-dd6b41faaea6'}];
+  p:'Paleta terrosa, estética contida e materialidade autoral. Exclusividade comunicada pelo silêncio.',
+  img:'1615529162924-f8605388461d', arq:'perfil-02-quiet'},
+ {k:'Luxo Tradicional',e:'Sofisticação clássica',c:'#3E1A10',
+  p:'Paletas ricas, parcerias de grife e uma linguagem visual que empodera a conquista.',
+  img:'1618221195710-dd6b41faaea6', arq:'perfil-03-tradicional'}];
+/* As descrições vivem aqui, não nos cartões. O cartão é a pergunta;
+   a descrição é a resposta, e ela aparece depois da escolha, no
+   resumo da Visita. Cartão limpo, foto respirando, decisão óbvia. */
+PERFIS.forEach(p=>{window.PERFIL_DESC[p.k]=p.p});
+
 const pbox=document.getElementById('perfisGrid');
 pbox.innerHTML=PERFIS.map((p,i)=>`
- <button class="perfil" aria-pressed="false" data-k="${p.k}">
-   <span class="perfil-bg" data-img="${p.img}"></span>
+ <button class="perfil" aria-pressed="false" data-k="${p.k}" aria-label="Escolher o perfil ${p.k}: ${p.e}">
+   <span class="perfil-bg" data-img="${p.img}" data-arq="${p.arq}"></span>
    <span class="perfil-tint" style="background:linear-gradient(180deg,transparent 30%,${p.c}dd)"></span>
    <span class="perfil-placa"></span>
-   <span class="perfil-num">0${i+1}</span>
    <span class="perfil-pick">✓</span>
-   <span class="perfil-in"><em>${p.e}</em><h3>${p.k}</h3><p>${p.p}</p></span>
+   <span class="perfil-in">
+     <span class="perfil-cab"><b class="perfil-num">0${i+1}</b><h3>${p.e}</h3></span>
+     <span class="perfil-cta"><s aria-hidden="true"></s><em>Escolher</em></span></span>
  </button>`).join('');
+/* ══ A ESCOLHA DO PERFIL ATRAVESSA O SITE ══════════════════════
+   Escolher não pode ser um clique que morre ali. A escolha é
+   confirmada na hora, reaparece lá embaixo na hora de agendar,
+   entra no formulário e vai junto na mensagem do WhatsApp.
+   O visitante percebe que foi ouvido, e o time já recebe o
+   contato sabendo em que chave conversar.
+   ════════════════════════════════════════════════════════════ */
 const chip=document.getElementById('pickchip');
+window.perfilEscolhido=null;
+
+function marcaPerfil(k){
+  window.perfilEscolhido=k;
+  /* o resumo da Visita é agora o único lugar onde o perfil reaparece:
+     nome, descrição completa e tipologia, num bloco só */
+  if(window.RES){window.RES.perfil=k;window.pintaResumo();}
+  const f=document.getElementById('perfilField'); if(f)f.value=k||'';
+  /* e vai junto na conversa do WhatsApp */
+  if(typeof atualizaZap==='function') atualizaZap();
+}
+
 let escolhido=null;
 pbox.querySelectorAll('.perfil').forEach(b=>{b.onclick=()=>{
   const on=b.getAttribute('aria-pressed')==='true';
   pbox.querySelectorAll('.perfil').forEach(x=>x.setAttribute('aria-pressed','false'));
   if(on){escolhido=null;pbox.classList.remove('has-pick');chip.classList.remove('on')}
   else{b.setAttribute('aria-pressed','true');escolhido=b.dataset.k;
-       pbox.classList.add('has-pick');chip.textContent='Seu perfil · '+escolhido;chip.classList.add('on')}
-  const f=document.getElementById('perfilField'); if(f)f.value=escolhido||'';
+       pbox.classList.add('has-pick');
+       /* a confirmação responde a pergunta que a escolha abriu:
+          que luxo é esse? O nome sozinho não explicava nada. */
+       chip.innerHTML='<i><s></s>Anotado</i><b>'+escolhido+'</b>'+
+                      '<span>'+(window.PERFIL_DESC[escolhido]||'')+'</span>';
+       chip.classList.add('on')}
+  marcaPerfil(escolhido);
 }});
 }catch(e){console.error('[Morás] bloco falhou:',e)}
 try{
@@ -460,11 +878,11 @@ try{
    ══════════════════════════════════════════════════════════════ */
 const EST=[
  {v:0,  n:'Acordando',   s:'Flex Cave em transição',
-  d:'Metade aberta, metade fechada. Cada morador decide o seu ponto. A fachada nunca é a mesma duas vezes, porque é a soma de dezoito escolhas.'},
+  d:'Metade aberta, metade fechada. Cada morador decide o seu momento. A fachada nunca é a mesma, porque é a soma de infinitas escolhas.'},
  {v:50, n:'Trabalhando', s:'Flex Cave aberto',
   d:'Placas recolhidas. A Z1 entra como extensão natural da unidade. Luz, ventilação cruzada e a copa das árvores dentro de casa.'},
  {v:100,n:'Dormindo',    s:'Flex Cave fechado',
-  d:'Placas totalmente fechadas. O edifício vira um bloco maciço. Privacidade absoluta, isolamento acústico e térmico no limite. A caverna pessoal.'}];
+  d:'Placas totalmente fechadas. O edifício vira um bloco maciço. Privacidade absoluta, isolamento acústico e térmico no limite. A sua caverna pessoal.'}];
 
 const fRail=document.getElementById('fachRail'), fKnob=document.getElementById('fachKnob'),
       fFill=document.getElementById('fachFill'), fImgs=[...document.querySelectorAll('.fach-img')],
@@ -512,6 +930,8 @@ function largura(){return fRail.getBoundingClientRect()}
 let arrastando=false, origemX=0, origemV=0, noPalco=false;
 
 function inicia(e,dePalco){
+  /* os botões ficam por cima da imagem: tocar neles não é arrastar */
+  if(dePalco && e.target.closest('.fach-ctrl')) return;
   arrastando=true; noPalco=dePalco;
   origemX=e.clientX; origemV=fVal;
   secFach.classList.add('arrastando');
@@ -524,7 +944,8 @@ function move(e){
   if(noPalco){
     /* na imagem: a largura toda do palco cobre o curso inteiro,
        então o gesto é curto e o edifício acompanha a mão */
-    agenda(origemV+(e.clientX-origemX)/palco.offsetWidth*115);
+    /* arrastar para a direita volta para o 01, como puxar a própria placa */
+    agenda(origemV-(e.clientX-origemX)/palco.offsetWidth*115);
   }else{
     const r=largura();
     agenda((e.clientX-r.left)/r.width*100);
@@ -558,6 +979,66 @@ secFach.addEventListener('keydown',e=>{
 });
 
 fStops.forEach(s=>s.addEventListener('click',ev=>{ev.stopPropagation();pintaFachada(+s.dataset.v)}));
+
+/* ══ AS DUAS PELES ═════════════════════════════════════════════
+   A fachada tem duas camadas e a imagem é a mesma nas duas. Em vez
+   de repetir a foto, o seletor troca o texto e acende a camada
+   correspondente sobre o render: a externa é a placa de corten, a
+   interna é a cortina de vidro. Uma interface, dois aprendizados.
+   ════════════════════════════════════════════════════════════ */
+const PELES={
+  ext:['Flex Cave.','Placas com propriedades isolantes acústicas e de luminosidade.'],
+  int:['Cortina de Vidro.','Barra os raios UV e condiciona o ambiente por dentro.']
+};
+const peleTxt=document.getElementById('peleTxt');
+const peleBtns=[...document.querySelectorAll('.pele')];
+
+function acendePele(b,manual){
+  peleBtns.forEach(x=>{
+    const on=x===b; x.classList.toggle('on',on); x.setAttribute('aria-selected',on);
+  });
+  const [t,d]=PELES[b.dataset.p];
+  peleTxt.classList.add('trocando');
+  setTimeout(()=>{
+    peleTxt.innerHTML=`<b>${t}</b> ${d}`;
+    peleTxt.classList.remove('trocando');
+  },180);
+  secFach.dataset.pele=b.dataset.p;
+  if(manual){
+    /* a pessoa entendeu: a interface para de se explicar */
+    secFach.classList.add('pele-usada');
+    clearTimeout(demoT1);clearTimeout(demoT2);
+  }
+}
+peleBtns.forEach(b=>b.addEventListener('click',()=>acendePele(b,true)));
+secFach.dataset.pele='ext';
+
+/* ── A INTERFACE SE APRESENTA SOZINHA ────────────────────────────
+   Dois botões parados não pedem nada. Quando a seção entra na tela,
+   o site troca de pele sozinho uma vez e volta: o texto muda, a
+   camada de cor desliza sobre o render e o selecionador se acende.
+   Em dois segundos a pessoa viu a interface funcionando sem ler
+   uma única instrução. Depois do primeiro toque dela, isso nunca
+   mais acontece — a demonstração já cumpriu o papel.
+   ─────────────────────────────────────────────────────────────── */
+let demoT1=0, demoT2=0, demoFeita=false;
+function demoPeles(){
+  if(demoFeita||secFach.classList.contains('pele-usada'))return;
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches){
+    secFach.classList.add('pele-chama');return;
+  }
+  demoFeita=true;
+  secFach.classList.add('pele-demo');
+  demoT1=setTimeout(()=>{ if(!secFach.classList.contains('pele-usada')) acendePele(peleBtns[1]); },900);
+  demoT2=setTimeout(()=>{
+    if(!secFach.classList.contains('pele-usada')){
+      acendePele(peleBtns[0]);
+      secFach.classList.remove('pele-demo');
+      secFach.classList.add('pele-chama');   /* o inativo segue chamando */
+    }
+  },2900);
+}
+(window.__aparecer=window.__aparecer||[]).push([document.querySelector('.pele-sel'),demoPeles,0.82]);
 addEventListener('resize',()=>pintaFachada(fVal));
 pintaFachada(0);
 
@@ -570,6 +1051,17 @@ pintaFachada(0);
    ════════════════════════════════════════════════════════════ */
 const DESTINO='gustavo@rrg.com.br';
 const CHAVE_FORM='';        /* <<< cole a chave do Web3Forms aqui */
+
+/* ══ AS TRÊS PLACAS ════════════════════════════════════════════
+   Mesma gramática do Flex Cave: a placa de corten desliza para o
+   lado e revela o que estava atrás. A 02 revela a onça.
+   ════════════════════════════════════════════════════════════ */
+document.querySelectorAll('#trio .tri').forEach(b=>{
+  b.addEventListener('click',()=>{
+    const aberta=b.getAttribute('aria-expanded')==='true';
+    b.setAttribute('aria-expanded', aberta?'false':'true');
+  });
+});
 
 /* ══ MENU DE CELULAR E IPAD ════════════════════════════════════ */
 const burger=document.getElementById('burger'), mm=document.getElementById('menuMob');
@@ -603,9 +1095,14 @@ const fab=document.getElementById('zapFab'), zBtn=document.getElementById('zapBt
       zMenu=document.getElementById('zapMenu'), zX=document.getElementById('zapX'),
       heroEl=document.getElementById('hero');
 
-document.querySelectorAll('.zap-op').forEach(a=>{
-  a.href=`https://wa.me/${ZAP}?text=${encodeURIComponent(ZAP_MSGS[a.dataset.msg])}`;
-});
+function atualizaZap(){
+  const p=window.perfilEscolhido;
+  const assinatura = p ? ` Meu perfil no site foi ${p}.` : '';
+  document.querySelectorAll('.zap-op').forEach(a=>{
+    a.href=`https://wa.me/${ZAP}?text=${encodeURIComponent(ZAP_MSGS[a.dataset.msg]+assinatura)}`;
+  });
+}
+atualizaZap();
 
 /* só existe depois que o hero sai da tela */
 let visivel=false;
@@ -643,15 +1140,18 @@ fv.addEventListener('submit', async ev=>{
     nome:  fv.querySelector('#n').value.trim(),
     email: fv.querySelector('#e').value.trim(),
     tel:   fv.querySelector('#t').value.trim(),
-    interesse: fv.querySelector('#i').value,
-    perfil: (fv.querySelector('#perfilField')||{}).value || 'não informado'
+    quemSou:   fv.querySelector('#i').value,
+    interesse: fv.querySelector('#q').value,
+    perfil: window.perfilEscolhido || (fv.querySelector('#perfilField')||{}).value || 'não informado',
+    percurso: (fv.querySelector('#resumoField')||{}).value || '—'
   };
 
   /* rede de segurança: sem chave, abre o e-mail já escrito */
   if(!CHAVE_FORM){
     const corpo=encodeURIComponent(
       `Nome: ${d.nome}\nE-mail: ${d.email}\nTelefone: ${d.tel}\n`+
-      `Interesse: ${d.interesse}\nPerfil escolhido no site: ${d.perfil}\n`);
+      `Quem sou eu: ${d.quemSou}\nInteresses: ${d.interesse}\n`+
+      `Perfil escolhido no site: ${d.perfil}\nPercurso no site: ${d.percurso}\n`);
     b.textContent='Abrindo seu e-mail…';
     location.href=`mailto:${DESTINO}?subject=${encodeURIComponent('Agendar visita — Morás Experience')}&body=${corpo}`;
     setTimeout(()=>{b.textContent=original},2500);
@@ -668,7 +1168,8 @@ fv.addEventListener('submit', async ev=>{
         subject:'Agendar visita — Morás Experience',
         from_name:'Site Morás Experience',
         Nome:d.nome, 'E-mail':d.email, Telefone:d.tel,
-        Interesse:d.interesse, 'Perfil escolhido':d.perfil
+        'Quem sou eu':d.quemSou, Interesses:d.interesse,
+        'Perfil escolhido':d.perfil, 'Percurso no site':d.percurso
       })
     });
     if(!(await r.json()).success) throw 0;
@@ -681,14 +1182,7 @@ fv.addEventListener('submit', async ev=>{
 });
 }catch(e){console.error('[Morás] bloco falhou:',e)}
 try{
-/* ══ EIXOS DE ACESSO ═══════════════════════════════════════════
-   A prancha virou imagem (mapa-local.jpg), que já traz os nomes
-   das vias impressos. A lista ao lado ficou só como referência.
-   ════════════════════════════════════════════════════════════ */
-const DEST=['Av. Pedroso de Morais','Av. Brig. Faria Lima','Av. Rebouças',
-            'Av. Nove de Julho','Av. Brasil','Av. Paulista'];
-document.getElementById('dest').innerHTML=DEST.map((n,i)=>
-  `<div class="dest-i"><em>${String(i+1).padStart(2,'0')}</em><span>${n}</span></div>`).join('');
+/* a lista de avenidas virou a explicação dos anéis, escrita direto no HTML */
 }catch(e){console.error('[Morás] bloco falhou:',e)}
 try{
 /* ══ MAPA DE CALOR ══ */
@@ -717,6 +1211,10 @@ const svg=document.getElementById('map'),tip=document.getElementById('tip'),stag
 const CX=300,CY=300;let parts='',total=0;
 RINGS.forEach(([m,r])=>{parts+=`<circle class="ring" cx="${CX}" cy="${CY}" r="${r*255}"/>
   <text class="rlbl" x="${CX+4}" y="${CY-r*255-5}">${m} min a pé</text>`});
+/* varredura: dois circulos defasados saindo do centro. E o que faz
+   o desenho parecer um radar vivo em vez de um grafico parado. */
+parts+=`<circle class="varre v1" cx="${CX}" cy="${CY}" r="10"/>
+  <circle class="varre v2" cx="${CX}" cy="${CY}" r="10"/>`;
 parts+=`<circle cx="${CX}" cy="${CY}" r="4.5" fill="var(--acc)"/>
   <circle cx="${CX}" cy="${CY}" r="13" fill="none" stroke="var(--acc)" stroke-width=".8" opacity=".5"/>
   <text class="corelbl" x="${CX}" y="${CY+30}" text-anchor="middle">Morás Experience</text>`;
@@ -726,17 +1224,102 @@ CATS.forEach(cat=>{const LL=D[cat.k];total+=LL.length;
     parts+=`<g class="poi" data-c="${cat.k}" data-t="${it[1]}" data-n="${it[0].replace(/"/g,'')}" style="transform-origin:${CX}px ${CY}px">
       <circle cx="${x}" cy="${y}" r="3.1" fill="${cat.c}" opacity=".92"/><circle cx="${x}" cy="${y}" r="9" fill="transparent"/></g>`})});
 svg.innerHTML=parts;document.getElementById('total').textContent=total;
-const catBox=document.getElementById('cats'),on={};
-CATS.forEach(c=>{on[c.k]=true;const b=document.createElement('button');b.className='cat';
-  b.setAttribute('aria-pressed','true');
-  b.innerHTML=`<span class="dot" style="background:${c.c}"></span>${c.n}<span class="n">${D[c.k].length}</span>`;
-  b.onclick=()=>{on[c.k]=!on[c.k];b.setAttribute('aria-pressed',on[c.k]);draw()};catBox.appendChild(b)});
+/* ── A LISTA VIRA O CAMINHO PRINCIPAL ──────────────────────────
+   Antes: oito botões que ligavam e desligavam camadas, e os nomes
+   só apareciam passando o mouse em pontos de 3px. No celular isso
+   simplesmente não existia.
+
+   Agora cada categoria abre uma lista com os nomes e a distância
+   real, e abrir uma categoria ISOLA ela no desenho. Uma ação, um
+   resultado: cliquei em Gastronomia, vejo a gastronomia.
+
+   E tudo obedece ao raio: os números da tabela e os itens da lista
+   mostram só o que está dentro dos minutos escolhidos.
+   ──────────────────────────────────────────────────────────── */
+const catBox=document.getElementById('cats');
+let aberta=null;
+
+CATS.forEach(c=>{
+  const g=document.createElement('div');
+  g.className='cat-grupo'; g.dataset.k=c.k;
+  g.innerHTML=`
+    <button class="cat" aria-expanded="false">
+      <span class="dot" style="background:${c.c}"></span>
+      <span class="cat-nome">${c.n}</span>
+      <span class="n" data-total="${D[c.k].length}">${D[c.k].length}</span>
+      <span class="cat-seta" aria-hidden="true"></span>
+    </button>
+    <div class="cat-corpo"><div>
+      <p class="cat-resumo"></p>
+      <ul class="cat-lista"></ul>
+      <p class="cat-vazio">Nada nesse raio. Aumente os minutos e eles aparecem.</p>
+    </div></div>`;
+  g.querySelector('.cat').onclick=()=>{
+    aberta = (aberta===c.k) ? null : c.k;
+    catBox.querySelectorAll('.cat-grupo').forEach(x=>{
+      const ab = x.dataset.k===aberta;
+      x.classList.toggle('aberta',ab);
+      x.querySelector('.cat').setAttribute('aria-expanded',ab);
+    });
+    catBox.classList.toggle('isolando', !!aberta);
+    draw();
+  };
+  catBox.appendChild(g);
+});
+
 const rad=document.getElementById('rad'),radv=document.getElementById('radv'),cnt=document.getElementById('count');
-function draw(){const max=+rad.value;radv.textContent=max;let n=0;
-  svg.querySelectorAll('.poi').forEach(g=>{const v=on[g.dataset.c]&&+g.dataset.t<=max;
-    g.style.opacity=v?1:.05;g.style.transform=v?'scale(1)':'scale(.9)';if(v)n++});
-  cnt.textContent=n}
-rad.oninput=draw;draw();
+
+function draw(){
+  const max=+rad.value; radv.textContent=max;
+  let n=0;
+
+  /* pontos: dentro do raio, e se houver categoria aberta, só ela acende */
+  svg.querySelectorAll('.poi').forEach(g=>{
+    const dentro = +g.dataset.t<=max;
+    const foco   = !aberta || g.dataset.c===aberta;
+    if(dentro) n++;
+    g.style.opacity = dentro ? (foco?1:.09) : .04;
+    g.style.transform = dentro&&foco ? 'scale(1)' : 'scale(.9)';
+  });
+  cnt.textContent=n;
+
+  /* a tabela responde ao raio: número, lista e resumo */
+  CATS.forEach(c=>{
+    const g=catBox.querySelector(`.cat-grupo[data-k="${c.k}"]`);
+    const dentro=D[c.k].filter(it=>it[1]<=max).sort((a,b)=>a[1]-b[1]);
+    const num=g.querySelector('.n');
+    num.textContent=dentro.length;
+    num.classList.toggle('zero',dentro.length===0);
+    g.classList.toggle('vazia',dentro.length===0);
+
+    if(g.classList.contains('aberta')){
+      const ul=g.querySelector('.cat-lista');
+      ul.innerHTML=dentro.map(([nome,t])=>
+        `<li><span>${nome}</span><em>${t}<i>min</i></em></li>`).join('');
+      const res=g.querySelector('.cat-resumo');
+      res.textContent = dentro.length
+        ? `${dentro.length} ${dentro.length===1?'endereço':'endereços'} · do mais perto, a ${dentro[0][1]} minutos`
+        : '';
+    }
+  });
+}
+rad.oninput=draw; draw();
+
+/* clicar num ponto abre a categoria dele e destaca o nome na lista */
+svg.addEventListener('click',e=>{
+  const g=e.target.closest('.poi'); if(!g||+g.style.opacity<.5)return;
+  const b=catBox.querySelector(`.cat-grupo[data-k="${g.dataset.c}"] .cat`);
+  if(b && !b.closest('.cat-grupo').classList.contains('aberta')) b.click();
+  setTimeout(()=>{
+    const alvo=[...catBox.querySelectorAll(`.cat-grupo[data-k="${g.dataset.c}"] .cat-lista li`)]
+      .find(li=>li.querySelector('span').textContent===g.dataset.n);
+    if(alvo){alvo.classList.add('achado');
+      alvo.scrollIntoView({block:'nearest',behavior:'smooth'});
+      setTimeout(()=>alvo.classList.remove('achado'),2600);}
+  },420);
+});
+
+/* no computador o nome ainda aparece ao passar o mouse */
 svg.addEventListener('mouseover',e=>{const g=e.target.closest('.poi');if(!g||+g.style.opacity<.5)return;
   const r=g.querySelector('circle').getBoundingClientRect(),s=stage.getBoundingClientRect();
   tip.innerHTML=`<b>${g.dataset.n}</b><i>${g.dataset.t} min</i>`;
@@ -748,15 +1331,22 @@ try{
    Os painéis fecham conforme o scroll e a onça rupestre aparece.
    O símbolo da marca ocupa o lugar da arte rupestre até a curadoria definir o artista.
    ══════════════════════════════════════════════════════ */
-const NP=7,fc=document.getElementById('flexcave'),fcp=document.getElementById('fcp'),
+/* sete placas numa tela de celular viram tiras de 50px e a cena some.
+   Três placas mantêm o gesto legível no telefone. */
+const NP=innerWidth<=640?3:7,
+      fc=document.getElementById('flexcave'),fcp=document.getElementById('fcp'),
       fconca=document.getElementById('fconca'),
       fcbar=document.getElementById('fcbar'),fcs0=document.getElementById('fcs0'),fcs1=document.getElementById('fcs1'),
       fcview=document.getElementById('fcview');
 /* A cena atrás das placas é a MULHER NA VARANDA (Infinitamente Verde).
-   Assim que varanda.jpg existir na pasta SITE, ela assume sozinha.
-   Enquanto não existe, o navegador cai na segunda camada. */
-fcview.style.backgroundImage=
-  'url("varanda.jpg"), url("https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=2400&auto=format&fit=crop")';
+   Dois recortes da mesma foto: deitado no computador, em pé no
+   celular. Sem isso o navegador corta as laterais e ela fica gigante. */
+function cenaVaranda(){
+  fcview.style.backgroundImage =
+    innerWidth<=640 ? 'url("varanda-mob.jpg")' : 'url("varanda.jpg")';
+}
+cenaVaranda();
+addEventListener('resize',cenaVaranda);
 fcp.innerHTML=Array.from({length:NP},()=>'<div class="fc-p"><i></i></div>').join('');
 
 fconca.innerHTML='<span class="corten-sym" aria-label="Símbolo Morás Experience"></span>';
@@ -782,6 +1372,10 @@ function flexcave(){
   fconca.style.transform=`scale(${(0.9+rev*0.1).toFixed(3)})`;
   fcbar.style.height=(p*100).toFixed(1)+'%';
   fcs0.classList.toggle('off',p>.5); fcs1.classList.toggle('off',p<=.5);
+  /* o rótulo do estado troca junto com a frase */
+  const r0=document.getElementById('fcr0'), r1=document.getElementById('fcr1');
+  if(r0) r0.classList.toggle('off',p>.5);
+  if(r1) r1.classList.toggle('off',p<=.5);
   fcview.style.transform=`scale(${(1.06+p*0.06).toFixed(3)})`;
 }
 }catch(e){console.error('[Morás] bloco falhou:',e)}
@@ -825,19 +1419,151 @@ function countUp(el){
 }
 }catch(e){console.error('[Morás] bloco falhou:',e)}
 try{
+/* As imagens são pintadas ANTES de qualquer rede de segurança:
+   se a animação falhar, as fotos ainda assim precisam existir. */
+paintPh();
+
+/* ══ ANIMAÇÃO ══════════════════════════════════════════════════
+   Um gesto só, repetido: a chapa de aço corre. É a gramática que
+   o Flex Cave inventou e que o site inteiro fala.
+
+   Gatilho por POSIÇÃO, não por fração visível. IntersectionObserver
+   com limiar alto falha quando o alvo é mais alto que a tela — foi
+   o que matou a fachada, o mapa de calor e as placas de tema.
+   ════════════════════════════════════════════════════════════ */
+try{
+const consulta=q=>typeof matchMedia==='function'&&matchMedia(q).matches;
+const semMovimento=consulta('(prefers-reduced-motion: reduce)');
+
+const naFila=[];
+function aoAparecer(el,acao,gatilho){
+  if(el)naFila.push({el,acao,gatilho:gatilho||0.78,feito:false});
+}
+/* blocos anteriores se inscrevem antes desta função existir:
+   cada try{} tem escopo próprio, então eles deixam o pedido numa
+   fila global e ela é recolhida aqui. */
+(window.__aparecer||[]).forEach(a=>aoAparecer(a[0],a[1],a[2]));
+window.__aparecer={push:a=>aoAparecer(a[0],a[1],a[2])};
+let pedido=null;
+function varre(){
+  const H=innerHeight;
+  naFila.forEach(o=>{
+    if(o.feito)return;
+    const r=o.el.getBoundingClientRect();
+    if(r.top < H*o.gatilho && r.bottom > H*0.08){ o.feito=true; o.acao(o.el); }
+  });
+}
+function agenda(){ if(pedido)return; pedido=requestAnimationFrame(()=>{pedido=null;varre()}); }
+addEventListener('scroll',agenda,{passive:true});
+addEventListener('resize',agenda);
+
+if(semMovimento){
+  /* quem pediu menos movimento recebe tudo aberto, sem coreografia */
+  document.querySelectorAll('#perfisGrid .perfil').forEach(c=>c.classList.add('aberto'));
+}else{
+  /* ── PERFIS · três portas, esquerda para a direita ─────────
+     Abrem e NÃO fecham. A chapa é a cortina de entrada: a pessoa
+     sente o corten, ele sai, e o cartão passa a pedir a escolha.
+     No computador as três entram juntas na tela, então o intervalo
+     de 0,7s é que cria a sequência. No celular cada cartão dispara
+     sozinho quando aparece — é o ritmo natural de uma lista.
+     ──────────────────────────────────────────────────────── */
+  const cartoes=[...document.querySelectorAll('#perfisGrid .perfil')];
+  const grade=document.getElementById('perfisGrid');
+  const emLinha=()=>grade && cartoes[0] && grade.offsetWidth > cartoes[0].offsetWidth*1.6;
+
+  /* ── TEMPO DE CONTEMPLAÇÃO ──────────────────────────────────
+     O gatilho estava em 0.80: a chapa abria assim que a borda de
+     cima do cartão entrava pela base da tela. No celular isso
+     significa que, quando o polegar termina o gesto e os olhos
+     chegam no cartão, a abertura JÁ ACONTECEU. A pessoa via o
+     resultado, nunca o gesto — e o corten, que é a matéria da
+     marca inteira, passava despercebido.
+
+     Duas correções. O gatilho fica muito mais tarde (o cartão
+     precisa estar de fato ocupando a tela), e entra uma espera
+     depois dele: um segundo inteiro de corten parado no celular,
+     meio segundo no computador, onde os três já entram juntos e
+     o intervalo entre eles já cria o ritmo.
+     ──────────────────────────────────────────────────────── */
+  const noCelular = innerWidth<=640;
+  const ESPERA    = noCelular ? 1000 : 520;
+
+  if(cartoes.length){
+    if(emLinha()){
+      aoAparecer(grade,()=>{
+        setTimeout(()=>{
+          cartoes.forEach((c,i)=>setTimeout(()=>c.classList.add('aberto'), i*700));
+        },ESPERA);
+      },0.62);
+    }else{
+      /* no celular o gatilho é 0.46: o topo do cartão já passou da
+         metade da tela, então ele está inteiro à vista antes de abrir */
+      cartoes.forEach(c=>aoAparecer(c,e=>{
+        setTimeout(()=>e.classList.add('aberto'),ESPERA);
+      },0.46));
+    }
+  }
+
+  /* a onça entra com um recuo lento de câmera: a foto começa
+     4% maior e assenta no lugar enquanto a seção sobe */
+  aoAparecer(document.getElementById('onca'),e=>e.classList.add('in'),0.9);
+
+  /* ── PLACAS DE TEMA · a onda ───────────────────────────────
+     Lado a lado no computador: espiam em cascata de 0,2s e viram
+     uma onda. Empilhadas no celular: cada uma espia ao aparecer.
+     ──────────────────────────────────────────────────────── */
+  const quadros=[...document.querySelectorAll('#trio .tri')];
+  const trio=document.getElementById('trio');
+  /* Medir largura falhava no celular: o teste rodava antes do layout
+     terminar e as quatro disparavam juntas. matchMedia responde a
+     mesma pergunta que o CSS usa, e responde certo desde o começo. */
+  const emColuna=()=>consulta('(max-width:819px)');
+  const espiar=(el,atraso)=>setTimeout(()=>{
+    el.classList.add('espia');
+    setTimeout(()=>el.classList.remove('espia'),1500);
+  },atraso);
+
+  if(quadros.length){
+    if(emColuna()){
+      /* empilhadas: cada uma espia quando você chega nela */
+      quadros.forEach(q=>aoAparecer(q,e=>espiar(e,0),0.82));
+    }else{
+      /* lado a lado: a onda, 0,5s entre uma e outra */
+      aoAparecer(trio,()=>quadros.forEach((q,i)=>espiar(q,i*500)),0.80);
+    }
+  }
+
+  /* ── FACHADA · a imagem fica parada; o comando se anuncia ── */
+  aoAparecer(document.querySelector('#fachada .fach-btns'),()=>{
+    const sec=document.getElementById('fachada');
+    setTimeout(()=>sec.classList.add('anuncia'),260);
+    setTimeout(()=>sec.classList.remove('anuncia'),4600);
+  },0.88);
+
+  /* ── MAPA DE CALOR · o controle pede o dedo ──────────────── */
+  const raio=document.getElementById('rad'), dica=document.getElementById('dicaRaio');
+  if(raio&&dica){
+    aoAparecer(raio,()=>{ dica.classList.add('on'); raio.classList.add('pulsa'); },0.90);
+    const cala=()=>{dica.classList.remove('on');raio.classList.remove('pulsa')};
+    ['input','pointerdown','touchstart'].forEach(ev=>
+      raio.addEventListener(ev,cala,{once:true,passive:true}));
+  }
+}
+varre();
+}catch(e){console.error('[Morás] animação falhou:',e)}
+
 /* rede de segurança: se algo impedir a animação, o conteúdo aparece do mesmo jeito */
 if(!('IntersectionObserver' in window)){
   document.querySelectorAll('.reveal,.scale,.kline').forEach(e=>e.classList.add('in'));
   throw new Error('sem IntersectionObserver, conteúdo revelado direto');
 }
-/* reveal, por último para pegar o conteúdo injetado */
-paintPh();
 const io=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){
   x.target.classList.add('in');io.unobserve(x.target)}}),{threshold:.1});
 document.querySelectorAll('.reveal,.scale').forEach(e=>io.observe(e));
 /* réguas de números não têm .reveal em todos os casos */
 const ioN=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){countUp(x.target);ioN.unobserve(x.target)}}),{threshold:.6});
-document.querySelectorAll('.band b, .tnum b').forEach(e=>ioN.observe(e));
+document.querySelectorAll('.ficha dt, .tnum b').forEach(e=>ioN.observe(e));
 /* títulos entram por linha */
 const ioK=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){
   [...x.target.children].forEach((l,i)=>setTimeout(()=>l.classList.add('in'),i*90));ioK.unobserve(x.target)}}),{threshold:.25});

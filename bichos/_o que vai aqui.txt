@@ -1,0 +1,14 @@
+BICHOS · easter eggs do canto superior direito
+
+Salve aqui os PNGs gerados no ChatGPT, com fundo transparente,
+exatamente com estes nomes:
+
+  onca.png     -> seção PERFIS
+  tucano.png   -> seção FACHADA
+  coruja.png   -> seção LOCALIZAÇÃO
+  arara.png    -> seção MAPA DE CALOR
+  lobo.png     -> seção FLEX CAVE
+  mico.png     -> seção AS CASAS
+
+Assim que o arquivo estiver aqui, ele aparece sozinho no site.
+Enquanto não estiver, aparece o símbolo da Morás no lugar.

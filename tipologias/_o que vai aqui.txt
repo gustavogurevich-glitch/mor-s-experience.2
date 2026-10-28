@@ -1,0 +1,19 @@
+TIPOLOGIAS · três fotos para cada uma
+
+Salve aqui com estes nomes exatos:
+
+  APARTAMENTO TIPO      tipo-01.jpg        tipo-02.jpg        tipo-03.jpg
+  GARDEN A              garden-a-01.jpg    garden-a-02.jpg    garden-a-03.jpg
+  GARDEN B              garden-b-01.jpg    garden-b-02.jpg    garden-b-03.jpg
+  COBERTURA DUPLEX      cobertura-01.jpg   cobertura-02.jpg   cobertura-03.jpg
+
+O que vai em cada número:
+  01  Perspectiva geral
+  02  Estar e varanda
+  03  Suíte principal
+
+Tamanho:  1600 × 2000 px  (retrato, 4:5)
+Formato:  JPG
+
+A foto entra sozinha assim que o arquivo estiver aqui.
+Enquanto não estiver, aparece o quadro em corten com o aviso.

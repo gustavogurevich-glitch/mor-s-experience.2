@@ -1,0 +1,46 @@
+AS QUATRO PLACAS · fotos que aparecem quando a placa de corten corre
+
+==========================================================
+O QUE VOCE ME MANDA
+==========================================================
+UMA imagem quadrada por placa, 1600 x 1600 px, JPG.
+
+  placa-01-esg.jpg          ESG e Sustentabilidade
+  placa-02-arte.jpg         Arte e Concurso
+  placa-03-wellness.jpg     Wellness e Performance
+  placa-04-tecnologia.jpg   Tecnologia
+
+Salve as quatro nesta pasta. Eu corto as duas versoes de cada
+uma (uma para computador, uma para celular) e coloco no site.
+
+==========================================================
+COMO COMPOR
+==========================================================
+1. ASSUNTO NO MEIO, com folga nas quatro bordas.
+   Eu vou cortar retrato para o computador e paisagem para o
+   celular. O que estiver perto da borda pode sair em um dos
+   dois recortes.
+
+2. METADE DE BAIXO CALMA OU ESCURA.
+   O texto da placa entra ali. Se tiver detalhe ou area clara
+   embaixo, o texto some. Ceu, parede lisa, sombra ou agua
+   escura funcionam bem.
+
+3. PALETA DA MARCA.
+   corten #511D05 / bege #E8CDA6 / branco #EFEBE2 / preto #1F1F1F
+   Sem azul frio, sem verde neon.
+
+==========================================================
+POR QUE QUADRADA E NAO JA CORTADA
+==========================================================
+A caixa da placa muda de formato conforme a tela:
+
+  iPhone           346 x 300   (deitada, 1,15)
+  iPad retrato     365 x 300   (deitada, 1,22)
+  iPad paisagem    262 x 354   (em pe,   0,74)
+  Notebook 1440    320 x 380   (em pe,   0,84)
+  Monitor 1920     364 x 380   (quadrada, 0,96)
+
+Vai de deitada no celular a em pe no monitor. Uma imagem so
+seria cortada de formas opostas nos dois. Mandando quadrada
+com folga, eu gero os dois recortes certos e nada e perdido.
